@@ -1,0 +1,21 @@
+---
+- name: Create an OpenShift Service from given template
+  hosts: localhost
+  tasks:
+
+  - name: Create temporary directory to store the processed template
+    tempfile:
+      state: directory
+      suffix: service
+    register: tmpdir
+
+  - name: Process Inventory Template
+    template:
+      src: "service_template.j2"
+      dest: "{{ tmpdir.path }}/service.yml"
+    register: svc_template
+
+  - debug: var=svc_template.dest
+
+  - name: Create OpenShift Service from generated template
+    shell: oc apply -f "{{ svc_template.dest }}"

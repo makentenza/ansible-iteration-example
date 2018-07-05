@@ -1,0 +1,18 @@
+project_name: test-svc
+
+service:
+  name: myservice
+  service_ports:
+    - name: port1
+      port: 101
+      protocol: TCP
+      targetPort: 101
+    - name: port2
+      port: 102
+      protocol: TCP
+      targetPort: 102
+    - name: port3
+      port: 103
+      protocol: TCP
+      targetPort: 103
+  selector: myselector

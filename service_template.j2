@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: '{{ service.name }}'
+  name: '{{ service.name }}'
+  namespace: '{{ project_name }}'
+spec:
+  ports:
+  {% for idx in range(0, service.service_ports.__len__() | int) -%}
+  - name: '{{ service.service_ports[idx].name }}'
+    port: {{ service.service_ports[idx].port }}
+    protocol: '{{ service.service_ports[idx].protocol }}'
+    targetPort: {{ service.service_ports[idx].targetPort }}
+  {% endfor -%}
+  selector:
+    name: '{{ service.selector }}'
+  sessionAffinity: None
+  type: ClusterIP
